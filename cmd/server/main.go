@@ -30,6 +30,18 @@ func main() {
 		return
 	}
 
+	_, _, err = pubsub.DeclareAndBind(
+		conn,
+		routing.ExchangePerilTopic,
+		"game_logs",
+		"game_logs.*",
+		pubsub.Durable,
+	)
+	if err != nil {
+		log.Println("Something went wrong creating logs queue\n", err)
+		return
+	}
+
 	gamelogic.PrintServerHelp()
 
 	for {
